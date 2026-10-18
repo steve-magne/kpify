@@ -1,0 +1,13 @@
+{
+  "name": "kpify",
+  "description": "Marketplace for the kpify BI skills plugin",
+  "owner": { "name": "Steve Magne" },
+  "plugins": [
+    {
+      "name": "kpify",
+      "description": "BI skills for reliable metrics and decision-ready visuals",
+      "version": "0.0.1",
+      "source": "./"
+    }
+  ]
+}

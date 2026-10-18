@@ -1,0 +1,10 @@
+{
+  "name": "kpify",
+  "description": "BI skills for reliable metrics and decision-ready visuals: frame the question, profile data, define and validate KPIs, choose honest charts, report evidence-backed findings.",
+  "version": "0.0.1",
+  "author": { "name": "Steve Magne" },
+  "homepage": "https://github.com/steve-magne/kpify",
+  "repository": "https://github.com/steve-magne/kpify",
+  "license": "MIT",
+  "keywords": ["agent-skills", "claude-code", "business-intelligence", "kpi", "data-analysis", "data-visualization", "analytics", "crisp-dm"]
+}
