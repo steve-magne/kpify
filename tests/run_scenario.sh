@@ -4,7 +4,7 @@
 #
 #   tests/run_scenario.sh [--baseline] [run-dir]
 #
-# --baseline runs without the kpify plugin (to record what a plain agent does) and skips the checker.
+# UPTO=N checks stages 0..N only. --baseline runs without the kpify plugin (to record what a plain agent does) and skips the checker.
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
@@ -24,5 +24,5 @@ claude -p "$(cat "$SCENARIO/prompt.txt")" ${PLUGIN[@]+"${PLUGIN[@]}"} \
 
 echo "run dir: $RUN"
 if [[ ${#PLUGIN[@]} -gt 0 ]]; then
-  python3 "$ROOT/tests/check_run.py" "$RUN/analysis" "$SCENARIO/expected"
+  python3 "$ROOT/tests/check_run.py" "$RUN/analysis" "$SCENARIO/expected" --upto "${UPTO:-5}"
 fi

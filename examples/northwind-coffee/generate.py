@@ -25,14 +25,22 @@ def main():
     rng = random.Random(SEED)
     OUT.mkdir(exist_ok=True)
 
+    # 250 existing customers, then signups spread over the period so acquisition is steady.
     customers = []
     for i in range(1, 601):
-        segment = "business" if f"C{i:04d}" == B2B_CUSTOMER else "consumer"
-        signup = START - timedelta(days=rng.randint(0, 400))
-        customers.append([f"C{i:04d}", signup.isoformat(), rng.choice(COUNTRIES), segment])
+        cid = f"C{i:04d}"
+        if cid == B2B_CUSTOMER:
+            signup = date(2025, 11, 3)
+        elif i <= 250:
+            signup = START - timedelta(days=rng.randint(1, 400))
+        else:
+            signup = START + timedelta(days=rng.randint(0, (END - START).days))
+        customers.append([cid, signup.isoformat(), rng.choice(COUNTRIES),
+                          "business" if cid == B2B_CUSTOMER else "consumer"])
     # Skewed popularity so some customers repeat often, most order once or twice.
-    consumer_ids = [c[0] for c in customers if c[3] == "consumer"]
-    weights = [1 / (k + 1) ** 0.6 for k in range(len(consumer_ids))]
+    consumers = [(c[0], date.fromisoformat(c[1])) for c in customers if c[3] == "consumer"]
+    weight = {cid: 1 / (k + 1) ** 0.6 for k, (cid, _) in enumerate(consumers)}
+    ordered = set()
 
     orders, items, refunds = [], [], []
     seq = 0
@@ -43,7 +51,13 @@ def main():
         for _ in range(max(0, round(rng.gauss(lam, 1.5)))):
             seq += 1
             oid = f"O{seq:05d}"
-            cust = rng.choices(consumer_ids, weights)[0]
+            new = [cid for cid, signup in consumers if signup <= d and cid not in ordered]
+            returning = sorted(ordered)  # sorted: set order is not deterministic
+            if new and (not returning or rng.random() < 0.3):
+                cust = rng.choice(new)
+            else:
+                cust = rng.choices(returning, [weight[c] for c in returning])[0]
+            ordered.add(cust)
             if rng.random() < 0.012:
                 cust = ""  # trap: guest checkout, no customer id
             promo = rng.random() < 0.2

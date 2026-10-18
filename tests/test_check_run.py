@@ -13,10 +13,11 @@ EXPECTED = Path(__file__).resolve().parent.parent / "examples/northwind-coffee/e
 
 TRAP_TEXT = {
     "02-data-profile.md": "Data ends 2026-06-14, so June is a partial month.\n"
-                          "30 exact duplicate rows found.\nOutlier: B2B bulk order O00556 for 1,920.00 EUR.\n",
+                          "24 exact duplicate rows found.\nOutlier: B2B bulk order O00526 for 1,920.00 EUR.\n",
     "03-kpi-catalog.md": "Net revenue = gross sales minus refunds.\n",
-    "06-executive-summary.md": "June is incomplete (14 days).\n"
-                               "Promo orders have higher AOV; this is a correlation, not a causal effect.\n",
+    "06-executive-summary.md": "June is incomplete (14 days). June net revenue: 6,377.10 EUR; 60% repeat rate.\n"
+                               "Promo orders have higher AOV; this is a correlation, not a causal effect.\n"
+                               "Conversion target: none supplied; 2% would be a hypothesis.\n",
 }
 
 
@@ -67,6 +68,14 @@ def main():
         (root / "charts/extra.png").write_bytes(b"")
         f = failures(root)
         assert {"artifact 01-analysis-brief.md", "kpi catalog fields", "charts reviewed"} <= set(f), f
+
+        # A summary number no calculation produced, and an unsourced benchmark, both fail.
+        p = root / "06-executive-summary.md"
+        clean = p.read_text()
+        p.write_text(clean + "June revenue was 6,133.40 EUR.\nAim for 1.5-3% conversion, the industry norm.\n")
+        f = failures(root)
+        assert {"summary numbers traced", "trap no_invented_benchmark"} <= set(f), f
+        p.write_text(clean)
 
         # --upto 1 only looks at stages 0-1.
         assert failures(root, upto=1) == ["artifact 01-analysis-brief.md"], failures(root, upto=1)

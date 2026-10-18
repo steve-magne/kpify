@@ -54,3 +54,6 @@ Every customer signed up on or before 2026-01-01, and the order pool is a fixed 
 new-customer revenue falls by construction. The baseline's main "insight" (acquisition collapse)
 is a generator artifact. Fix in `generate.py`: spread signups across the period and draw new
 customers over time, then regenerate the expected answers.
+
+**Fixed after this run** (same day): signups now spread over the period; data and expected
+answers regenerated. The figures above refer to the first version of the fixture.

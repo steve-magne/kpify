@@ -80,9 +80,45 @@ def check(analysis, expected, upto=5):
         if "if" in trap and not re.search(trap["if"], text, re.I):
             results.append((f"trap {trap['id']}", True, "n/a"))
             continue
-        misses = [p for p in trap["patterns"] if not re.search(p, text, re.I)]
-        results.append((f"trap {trap['id']}", not misses, f"no match: {misses}" if misses else ""))
+        misses = [p for p in trap.get("patterns", []) if not re.search(p, text, re.I)]
+        if "forbid" in trap:  # lines matching "forbid" must also match "unless"
+            misses += [line.strip() for line in text.splitlines()
+                       if re.search(trap["forbid"], line, re.I) and not re.search(trap["unless"], line, re.I)]
+        results.append((f"trap {trap['id']}", not misses, f"failed on: {misses}" if misses else ""))
+
+    if upto >= 5 and "06-executive-summary.md" in texts:
+        untraced = prose_numbers(texts, analysis / "kpi-results.json")
+        results.append(("summary numbers traced", not untraced, f"not in results/profile/analysis: {untraced}"))
     return results
+
+
+# Thousands use "," or a non-breaking space; a decimal uses "." or a "," not followed by exactly 3 digits.
+NUMBER = re.compile(r"(?<![\w.])-?(\d{1,3}(?:[,\u00a0\u202f]\d{3})+|\d+)([.,]\d+)?\s?([kK]\b)?")
+DATE = re.compile(r"\b\d{4}-\d{2}(-\d{2})?\b")
+
+
+def numbers(text):
+    """Yield (value, half of the last shown digit) so rounded quotes still match."""
+    for m in NUMBER.finditer(DATE.sub(" ", text)):
+        whole = re.sub(r"[,\u00a0\u202f]", "", m.group(1))
+        frac = (m.group(2) or "").replace(",", ".")
+        scale = 1000 if m.group(3) else 1
+        yield float(whole + frac) * scale, 0.5 * 10 ** -max(len(frac) - 1, 0) * scale
+
+
+def prose_numbers(texts, results_path):
+    """Numbers in the summary that appear nowhere in kpi-results.json, 02-data-profile.md or 04-analysis.md."""
+    sources = {v for v, _ in numbers(texts.get("02-data-profile.md", "") + texts.get("04-analysis.md", ""))}
+    if results_path.exists():
+        try:
+            sources |= {v for r in json.loads(results_path.read_text()) if (v := num(r.get("value"))) is not None}
+        except json.JSONDecodeError:
+            pass
+    sources |= {v * 100 for v in sources}  # ratios quoted as percentages
+    # ponytail: integers up to 31 are skipped (day counts, list numbers); upgrade if they hide real misquotes.
+    return sorted({v for v, half in numbers(texts["06-executive-summary.md"])
+                   if not (v == int(v) and abs(v) <= 31)
+                   and not any(close(v, s) or abs(v - s) <= half + 1e-9 for s in sources)})
 
 
 def check_values(actual_path, expected_path):
