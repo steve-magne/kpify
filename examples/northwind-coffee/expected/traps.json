@@ -1,0 +1,15 @@
+[
+ {"id": "partial_june", "files": ["02-data-profile.md", "06-executive-summary.md"],
+  "patterns": ["(june|2026-06)[^\\n]{0,200}(partial|incomplete|only 14|through (the )?14|to (the )?14)|(partial|incomplete)[^\\n]{0,200}(june|2026-06)"]},
+ {"id": "duplicates_found", "files": ["02-data-profile.md"],
+  "patterns": ["duplicat", "\\b30\\b"]},
+ {"id": "refunds_net_vs_gross", "files": ["03-kpi-catalog.md"],
+  "patterns": ["refund", "\\bnet\\b", "\\bgross\\b"]},
+ {"id": "b2b_outlier_flagged", "files": ["02-data-profile.md"],
+  "patterns": ["1[ ,.]?920|O00556", "outlier|bulk|b2b|business"]},
+ {"id": "conversion_blocked", "files": ["03-kpi-catalog.md"],
+  "patterns": ["(?s)conversion.{0,2000}BLOCKED"]},
+ {"id": "promo_not_causal", "files": ["06-executive-summary.md"],
+  "if": "promo|SPRING10",
+  "patterns": ["correlat|associat|not (necessarily )?caus|cannot (establish|conclude|attribute)|selection"]}
+]
