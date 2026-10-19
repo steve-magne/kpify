@@ -92,18 +92,14 @@ the decision-maker.
 Six stages, adapted from CRISP-DM. Each one writes an artifact, reads the earlier ones, and must
 pass a deterministic gate before the next one starts.
 
-```mermaid
-flowchart LR
-    Q([Business question]) --> F[0 · Frame]
-    F --> P[1 · Profile]
-    P --> D[2 · Define]
-    D --> V[3 · Validate]
-    V --> C[4 · Visualize]
-    C --> E[5 · Explain]
-    E --> R([Decision-ready summary])
-    V -. definition or data issue .-> D
-    D -. data gap .-> P
-```
+<a href="docs/assets/kpify-pipeline.html">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/kpify-pipeline-dark.png">
+    <img alt="kpify pipeline: a business question goes through Frame, Profile, Define, Validate, Visualize and Explain; each stage writes a numbered artifact to .kpify/, and Validate can send you back to Define" src="docs/assets/kpify-pipeline-light.png">
+  </picture>
+</a>
+
+<sub>Drawn with [Archify](https://github.com/tt-a1i/archify). Download [the interactive version](docs/assets/kpify-pipeline.html) and open it in a browser.</sub>
 
 It's iterative, not waterfall: a later stage can send you back, and the reason is recorded in a
 `## Revisions` section, never as a silent rewrite.
