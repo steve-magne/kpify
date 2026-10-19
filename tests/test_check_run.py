@@ -46,9 +46,10 @@ def failures(root, upto=5):
 def skills_list_template_headings():
     headings, _ = template_spec()
     skills = Path(__file__).resolve().parent.parent / "skills"
-    for name, skill in [("01-analysis-brief.md", "frame-analysis"), ("02-data-profile.md", "profile-data")]:
+    for name, skill in [("01-analysis-brief.md", "frame-analysis"), ("02-data-profile.md", "profile-data"),
+                        ("03-kpi-catalog.md", "define-kpis"), ("04-analysis.md", "validate-metrics")]:
         text = (skills / skill / "SKILL.md").read_text()
-        missing = [h for h in headings[name] if f"`{h}`" not in text]
+        missing = [h for h in headings[name] + ["## Assumptions", "## Revisions"] if f"`{h}`" not in text]
         assert not missing, f"{skill}/SKILL.md gate does not list {missing}"
 
 
@@ -86,6 +87,12 @@ def main():
         f = failures(root)
         assert {"summary numbers traced", "trap no_invented_benchmark"} <= set(f), f
         p.write_text(clean)
+
+        # A nested object instead of a list of rows fails cleanly.
+        good = (root / "kpi-results.json").read_text()
+        (root / "kpi-results.json").write_text(json.dumps({"months": {"2026-01": {"net_revenue": 1}}}))
+        assert "kpi-results.json" in failures(root), failures(root)
+        (root / "kpi-results.json").write_text(good)
 
         # --upto 1 only looks at stages 0-1.
         assert failures(root, upto=1) == ["artifact 01-analysis-brief.md"], failures(root, upto=1)

@@ -111,7 +111,7 @@ def prose_numbers(texts, results_path):
     sources = {v for v, _ in numbers(texts.get("02-data-profile.md", "") + texts.get("04-analysis.md", ""))}
     if results_path.exists():
         try:
-            sources |= {v for r in json.loads(results_path.read_text()) if (v := num(r.get("value"))) is not None}
+            sources |= {v for r in json.loads(results_path.read_text()) if isinstance(r, dict) and (v := num(r.get("value"))) is not None}
         except json.JSONDecodeError:
             pass
     sources |= {v * 100 for v in sources}  # ratios quoted as percentages
@@ -128,6 +128,8 @@ def check_values(actual_path, expected_path):
         rows = json.loads(actual_path.read_text())
     except json.JSONDecodeError as e:
         return [("kpi-results.json", False, f"invalid JSON: {e}")]
+    if not isinstance(rows, list) or not all(isinstance(r, dict) for r in rows):
+        return [("kpi-results.json", False, "not a list of {id, period, value, …} rows")]
     results = []
     for exp in json.loads(expected_path.read_text()):
         candidates = [num(r.get("value")) for r in rows
