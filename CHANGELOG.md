@@ -13,6 +13,6 @@ First release: the `kpify` router and six stage skills, with an acceptance scena
 - `docs/methodology.md`, `CONTRIBUTING.md`, `NOTICE`.
 
 ### Verification
-- Full scenario run (`tests/run_scenario.sh`, stages 0–5): **result pending** — to be filled in before the tag.
+- Full scenario run on 2026-10-19 (`tests/run_scenario.sh`, stages 0–5, plugin loaded, user settings excluded): **40/40 checks passed** — six artifacts, KPI catalog fields, all KPI values against the oracle, charts reviewed, the seven trap checks and the prose-number trace.
 - Clean install from the marketplace (`/plugin marketplace add steve-magne/kpify`, `/plugin install kpify@kpify`) checked in an isolated config on 2026-10-19.
 - Credits: no passage shared with obra/superpowers, pbakaus/impeccable or morluto/rea beyond generic boilerplate.
