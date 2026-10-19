@@ -1,0 +1,367 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "kpify pipeline",
+    "subtitle": "Six stages, one artifact each, a deterministic gate between them",
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase",
+    "output": "docs/assets/kpify-pipeline.html",
+    "repository": {
+      "url": "https://github.com/steve-magne/kpify",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "67340be22b042b7f8f92b173c4ea5f4471f49e7d"
+    },
+    "legend": {
+      "entries": {
+        "external": {
+          "label": "You"
+        },
+        "backend": {
+          "label": "Stage skill"
+        },
+        "frontend": {
+          "label": "Chart stage"
+        },
+        "security": {
+          "label": "Number check script"
+        },
+        "database": {
+          "label": "Artifact in .kpify/"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "you",
+      "label": "You"
+    },
+    {
+      "id": "stages",
+      "label": "kpify stages"
+    },
+    {
+      "id": "artifacts",
+      "label": ".kpify/ artifacts"
+    }
+  ],
+  "phases": [
+    {
+      "id": "understand",
+      "label": "Understand",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "measure",
+      "label": "Measure",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "communicate",
+      "label": "Communicate",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "question",
+    "frame",
+    "profile",
+    "define",
+    "validate",
+    "visualize",
+    "explain",
+    "summary"
+  ],
+  "nodes": [
+    {
+      "id": "question",
+      "lane": "you",
+      "col": 0,
+      "type": "external",
+      "icon": "person",
+      "label": "Business question",
+      "sublabel": "who decides what"
+    },
+    {
+      "id": "summary",
+      "lane": "you",
+      "col": 5,
+      "type": "external",
+      "icon": "success",
+      "label": "Decision-ready answer",
+      "sublabel": "evidence + caveats"
+    },
+    {
+      "id": "frame",
+      "lane": "stages",
+      "col": 0,
+      "type": "backend",
+      "label": "0 \u00b7 Frame",
+      "sublabel": "frame-analysis",
+      "sources": [
+        {
+          "path": "skills/frame-analysis/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "profile",
+      "lane": "stages",
+      "col": 1,
+      "type": "backend",
+      "label": "1 \u00b7 Profile",
+      "sublabel": "profile-data",
+      "tag": "profile.py",
+      "sources": [
+        {
+          "path": "skills/profile-data/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "define",
+      "lane": "stages",
+      "col": 2,
+      "type": "backend",
+      "label": "2 \u00b7 Define",
+      "sublabel": "define-kpis",
+      "sources": [
+        {
+          "path": "skills/define-kpis/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "validate",
+      "lane": "stages",
+      "col": 3,
+      "type": "security",
+      "label": "3 \u00b7 Validate",
+      "sublabel": "validate-metrics",
+      "tag": "gate",
+      "sources": [
+        {
+          "path": "skills/validate-metrics/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "visualize",
+      "lane": "stages",
+      "col": 4,
+      "type": "frontend",
+      "label": "4 \u00b7 Visualize",
+      "sublabel": "choose-visuals",
+      "sources": [
+        {
+          "path": "skills/choose-visuals/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "explain",
+      "lane": "stages",
+      "col": 5,
+      "type": "security",
+      "label": "5 \u00b7 Explain",
+      "sublabel": "explain-findings",
+      "tag": "trace_numbers.py",
+      "sources": [
+        {
+          "path": "skills/explain-findings/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "brief",
+      "lane": "artifacts",
+      "col": 0,
+      "type": "database",
+      "label": "01 brief",
+      "sublabel": "decisions, questions"
+    },
+    {
+      "id": "dprofile",
+      "lane": "artifacts",
+      "col": 1,
+      "type": "database",
+      "label": "02 profile",
+      "sublabel": "keys, joins, traps"
+    },
+    {
+      "id": "catalog",
+      "lane": "artifacts",
+      "col": 2,
+      "type": "database",
+      "label": "03 KPI catalog",
+      "sublabel": "formula, grain, owner"
+    },
+    {
+      "id": "results",
+      "lane": "artifacts",
+      "col": 3,
+      "type": "database",
+      "label": "04 analysis",
+      "sublabel": "kpi-results.json"
+    },
+    {
+      "id": "charts",
+      "lane": "artifacts",
+      "col": 4,
+      "type": "database",
+      "label": "05 charts",
+      "sublabel": "checklist review"
+    },
+    {
+      "id": "execsum",
+      "lane": "artifacts",
+      "col": 5,
+      "type": "database",
+      "label": "06 summary",
+      "sublabel": "every number traced"
+    }
+  ],
+  "edges": [
+    {
+      "id": "ask",
+      "from": "question",
+      "to": "frame",
+      "variant": "emphasis"
+    },
+    {
+      "id": "frame-profile",
+      "from": "frame",
+      "to": "profile",
+      "variant": "emphasis"
+    },
+    {
+      "id": "profile-define",
+      "from": "profile",
+      "to": "define",
+      "variant": "emphasis"
+    },
+    {
+      "id": "define-validate",
+      "from": "define",
+      "to": "validate",
+      "variant": "emphasis"
+    },
+    {
+      "id": "validate-visualize",
+      "from": "validate",
+      "to": "visualize",
+      "variant": "emphasis"
+    },
+    {
+      "id": "visualize-explain",
+      "from": "visualize",
+      "to": "explain",
+      "variant": "emphasis"
+    },
+    {
+      "id": "answer",
+      "from": "explain",
+      "to": "summary",
+      "variant": "emphasis"
+    },
+    {
+      "id": "w1",
+      "from": "frame",
+      "to": "brief",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "w2",
+      "from": "profile",
+      "to": "dprofile",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "w3",
+      "from": "define",
+      "to": "catalog",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "w4",
+      "from": "validate",
+      "to": "results",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "w5",
+      "from": "visualize",
+      "to": "charts",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "w6",
+      "from": "explain",
+      "to": "execsum",
+      "variant": "dashed",
+      "role": "branch",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "back",
+      "from": "validate",
+      "to": "define",
+      "label": "definition issue",
+      "variant": "security",
+      "role": "return",
+      "fromSide": "top",
+      "toSide": "top",
+      "route": "up-channel"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Gate between stages",
+      "items": [
+        "check_artifacts.py --stage N: headings, KPI fields, results rows",
+        "A stage starts only when the previous artifact is complete"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "No silent shortcuts",
+      "items": [
+        "Missing targets stay missing or are labeled hypothesis",
+        "KPIs are UNVALIDATED until checked, BLOCKED without data"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Iterative, not waterfall",
+      "items": [
+        "A later stage can send you back",
+        "The reason goes in ## Revisions, never a silent rewrite"
+      ]
+    }
+  ]
+}
