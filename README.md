@@ -7,9 +7,9 @@ coding agent work like a careful BI analyst: frame the business question, profil
 define KPIs, validate the calculations, choose honest charts, and report findings with their
 evidence and caveats. Every stage writes an inspectable artifact to `analysis/`.
 
-> **Status: pre-release (0.0.1).** The `kpify` router and all six stage skills exist (`frame-analysis`,
-> `profile-data`, `define-kpis`, `validate-metrics`, `choose-visuals`, `explain-findings`).
-> Release v0.1.0 is next — see [the MVP plan](docs/plans/2026-10-18-mvp-plan.md).
+> **Status: 0.1.0.** The `kpify` router and six stage skills (`frame-analysis`, `profile-data`,
+> `define-kpis`, `validate-metrics`, `choose-visuals`, `explain-findings`). See the
+> [changelog](CHANGELOG.md) and the [methodology](docs/methodology.md).
 
 ## Install (Claude Code)
 
@@ -96,11 +96,15 @@ to assume.
 
 ## Credits
 
-Ideas (not code or text) borrowed from [obra/superpowers](https://github.com/obra/superpowers)
+Ideas (not code or text; see [NOTICE](NOTICE)) borrowed from [obra/superpowers](https://github.com/obra/superpowers)
 (MIT) for workflow discipline and baseline-first skill testing,
 [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0) for a domain command
 vocabulary backed by shared references, and [morluto/rea](https://github.com/morluto/rea) (MIT)
 for evidence-first investigation.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add or change a skill.
 
 ## License
 

@@ -1,7 +1,7 @@
 {
   "name": "kpify",
   "description": "BI skills for reliable metrics and decision-ready visuals: frame the question, profile data, define and validate KPIs, choose honest charts, report evidence-backed findings.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": { "name": "Steve Magne" },
   "homepage": "https://github.com/steve-magne/kpify",
   "repository": "https://github.com/steve-magne/kpify",

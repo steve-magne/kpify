@@ -1,0 +1,22 @@
+kpify
+Copyright (c) 2026 Steve Magne. Licensed under the MIT License (see LICENSE).
+
+kpify borrows ideas, not code or text, from the projects below. A comparison of kpify's files
+against their repositories found no shared passages beyond generic boilerplate. They are credited
+because their approaches shaped the design.
+
+- obra/superpowers (MIT) — https://github.com/obra/superpowers
+  An entry skill that routes to the right process, skills written as rigid procedures with
+  red-flag tables, and baseline-first skill testing (run the scenario without the skill first).
+
+- pbakaus/impeccable (Apache-2.0) — https://github.com/pbakaus/impeccable
+  One command vocabulary for a domain, backed by shared reference files, with deterministic
+  checks alongside model critique.
+
+- morluto/rea (MIT) — https://github.com/morluto/rea
+  Evidence-first investigation: every claim points at an observation.
+
+Optional integration: Archify (https://github.com/tt-a1i/archify) is only suggested for rendering
+schema diagrams; nothing from it is bundled.
+
+The Northwind Coffee scenario data is synthetic and fictional.
