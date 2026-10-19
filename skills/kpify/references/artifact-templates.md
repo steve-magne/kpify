@@ -2,7 +2,8 @@
 
 Every artifact lives in `.kpify/` and starts with the same header. Keep every `##` heading
 below with its exact text, in English, even when the content is in another language:
-`tests/check_run.py` looks for them.
+`scripts/check_artifacts.py` looks for them, and every
+stage's gate runs it.
 
 ```markdown
 # <Title>
@@ -134,6 +135,7 @@ One block per KPI. Field list and vocabulary: `kpi-definition.md`.
 <Path(s) to the SQL / Python that computes every KPI, and the command to rerun it.>
 
 ## Results
+<Output of `check_artifacts.py .kpify --results-table`, pasted as is: one row per kpi-results.json row.>
 | KPI id | Period | Segment | Value | Unit | Status |
 |---|---|---|---|---|---|
 

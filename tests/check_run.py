@@ -3,8 +3,9 @@
     python3 tests/check_run.py <analysis-dir> <expected-dir> [--upto N]
 
 --upto N checks stages 0..N only (default 5), for runs that stopped early.
-Required headings (every `##` heading of each template) and KPI fields are read from skills/kpify/references/artifact-templates.md,
-so the templates stay the single source of truth.
+Structure (headings, KPI fields, kpi-results.json rows, Results table, charts, traced numbers) is checked by
+skills/kpify/scripts/check_artifacts.py, the same script the skills' gates run, so the skills' checks are the
+spec for this harness. On top of it: Status complete, values against the oracle, and the scenario's traps.
 """
 
 import argparse
@@ -14,67 +15,23 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-sys.path.insert(0, str(ROOT / "skills/explain-findings/scripts"))
-from trace_numbers import close, prose_numbers  # noqa: E402  the skill's own check is the spec
-
-TEMPLATES = ROOT / "skills/kpify/references/artifact-templates.md"
-ARTIFACTS = ["01-analysis-brief.md", "02-data-profile.md", "03-kpi-catalog.md",
-             "04-analysis.md", "05-visualization-review.md", "06-executive-summary.md"]
+sys.path.insert(0, str(ROOT / "skills/kpify/scripts"))
+from check_artifacts import ARTIFACTS, check as check_artifacts, load_rows, template_spec  # noqa: E402,F401
+from trace_numbers import close  # noqa: E402  put on sys.path by check_artifacts
 
 
 def stage(name):
     return int(name[:2]) - 1 if name[:2].isdigit() else 3  # kpi-results.json belongs to stage 3
 
 
-def template_spec():
-    parts = re.split(r"^## (0\d-[\w-]+\.md)$", TEMPLATES.read_text(), flags=re.M)
-    sections = dict(zip(parts[1::2], parts[2::2]))
-    headings = {name: re.findall(r"^(## [^<\n]+)$", body, re.M) for name, body in sections.items()}
-    fields = [f for f in re.findall(r"^\| ([A-Z][\w ]*?) \|", sections["03-kpi-catalog.md"], re.M) if f != "Field"]
-    return headings, fields
-
-
 def check(analysis, expected, upto=5):
     """Return a list of (check name, passed, detail)."""
     analysis, expected = Path(analysis), Path(expected)
-    headings, fields = template_spec()
-    results = []
-    texts = {}
-
-    for name in ARTIFACTS:
-        if stage(name) > upto:
-            continue
-        path = analysis / name
-        if not path.exists():
-            results.append((f"artifact {name}", False, "missing"))
-            continue
-        text = texts[name] = path.read_text()
-        problems = []
-        if not re.search(r"^Status: (complete|blocked)\b", text, re.M):
-            problems.append("Status not complete/blocked")
-        problems += [f"no '{h}'" for h in headings.get(name, []) if not re.search(rf"^{re.escape(h)}\b", text, re.M)]
-        results.append((f"artifact {name}", not problems, "; ".join(problems)))
-
-    if "03-kpi-catalog.md" in texts:
-        blocks = re.split(r"^## KPI:", texts["03-kpi-catalog.md"], flags=re.M)[1:]
-        missing = []
-        for block in blocks:
-            title = block.splitlines()[0].strip()
-            empty = [f for f in fields if not re.search(rf"^\|\s*{f}\s*\|\s*[^|\s][^|]*\|", block, re.M)]
-            if empty:
-                missing.append(f"{title}: {', '.join(empty)}")
-        results.append(("kpi catalog fields", bool(blocks) and not missing,
-                        "no '## KPI:' blocks" if not blocks else "; ".join(missing)))
+    results = check_artifacts(analysis, range(upto + 1), final=True)
+    texts = {n: (analysis / n).read_text() for n in ARTIFACTS if stage(n) <= upto and (analysis / n).exists()}
 
     if upto >= 3:
         results += check_values(analysis / "kpi-results.json", expected / "kpi-results.json")
-
-    if upto >= 4:
-        charts = [p.name for p in (analysis / "charts").glob("*") if not p.name.startswith(".")]
-        review = texts.get("05-visualization-review.md", "")
-        unreviewed = [c for c in charts if c not in review]
-        results.append(("charts reviewed", bool(charts) and not unreviewed,
-                        "no charts" if not charts else f"not in review: {unreviewed}"))
 
     for trap in json.loads((expected / "traps.json").read_text()):
         if max(stage(f) for f in trap["files"]) > upto:
@@ -88,22 +45,13 @@ def check(analysis, expected, upto=5):
             misses += [line.strip() for line in text.splitlines()
                        if re.search(trap["forbid"], line, re.I) and not re.search(trap["unless"], line, re.I)]
         results.append((f"trap {trap['id']}", not misses, f"failed on: {misses}" if misses else ""))
-
-    if upto >= 5 and "06-executive-summary.md" in texts:
-        untraced = prose_numbers(texts, analysis / "kpi-results.json")
-        results.append(("summary numbers traced", not untraced, f"not in results/profile/analysis: {untraced}"))
     return results
 
 
 def check_values(actual_path, expected_path):
-    if not actual_path.exists():
-        return [("kpi-results.json", False, "missing")]
-    try:
-        rows = json.loads(actual_path.read_text())
-    except json.JSONDecodeError as e:
-        return [("kpi-results.json", False, f"invalid JSON: {e}")]
-    if not isinstance(rows, list) or not all(isinstance(r, dict) for r in rows):
-        return [("kpi-results.json", False, "not a list of {id, period, value, …} rows")]
+    rows, error = load_rows(actual_path)
+    if error:
+        return []  # check_artifacts already reports it
     results = []
     for exp in json.loads(expected_path.read_text()):
         candidates = [num(r.get("value")) for r in rows

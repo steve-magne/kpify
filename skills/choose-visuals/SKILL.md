@@ -58,9 +58,9 @@ Chart only what answers a question, and only what was validated. Outputs: chart 
 
 ## Gate
 
-- [ ] Headings exactly as in the template: one `## Chart: <file>` block per file in
-      `.kpify/charts/`, then `## Assumptions`, `## Revisions` (write "None." under an empty one).
-- [ ] Every file in `.kpify/charts/` has a block, and every block's file exists.
+- [ ] `python3 ${CLAUDE_SKILL_DIR}/../kpify/scripts/check_artifacts.py .kpify --stage 4` prints 0 failures
+      (one `## Chart: <file>` block per file in `charts/` and no block without its file,
+      `## Assumptions` and `## Revisions` not empty). Fix every FAIL line and rerun.
 - [ ] Each chart names one question from the brief and the KPI ids it plots.
 - [ ] The chart code reads its values from `kpi-results.json`; it reruns and redraws the files.
 - [ ] Every checklist item passed, or its failure is recorded with the fix.

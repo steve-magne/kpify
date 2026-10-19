@@ -70,9 +70,8 @@ following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Work 
 
 ## Gate
 
-- [ ] Headings exactly as in the template: `## Sources`, `## Columns`, `## Relationships`,
-      `## Lineage`, `## Quality issues`, `## Transformations`, `## Observations vs hypotheses`,
-      `## Assumptions`, `## Revisions` (write "None." under an empty one).
+- [ ] `python3 ${CLAUDE_SKILL_DIR}/../kpify/scripts/check_artifacts.py .kpify --stage 1` prints 0 failures
+      (every template heading present, none empty: write "None." under an empty one). Fix every FAIL line and rerun.
 - [ ] Every source listed with rows, columns, grain, date range and key.
 - [ ] Every column has a role: identifier, dimension, measure, date, or unused.
 - [ ] Joins needed by the questions checked for cardinality and orphans; inferred joins kept or

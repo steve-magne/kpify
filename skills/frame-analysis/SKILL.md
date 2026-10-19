@@ -1,6 +1,7 @@
 ---
 name: frame-analysis
 description: Use at the start of any data analysis, KPI or dashboard request, before profiling or calculating anything — and whenever the business question, audience or scope changes. Pins down the decision the analysis supports, who reads it, the specific questions, scope and known definitions, and writes .kpify/01-analysis-brief.md. Asks the user only questions whose answer would change a KPI or a conclusion.
+allowed-tools: Bash(python3 *)
 ---
 
 # frame-analysis — stage 0
@@ -36,9 +37,8 @@ Not worth asking: chart colors, file names, anything you can find in the data.
 
 ## Gate
 
-- [ ] Headings exactly as in the template: `## Decision`, `## Audience`, `## Questions`,
-      `## Scope`, `## Known definitions`, `## Data available`, `## Open questions`,
-      `## Assumptions`, `## Revisions` (write "None." under an empty one).
+- [ ] `python3 ${CLAUDE_SKILL_DIR}/../kpify/scripts/check_artifacts.py .kpify --stage 0` prints 0 failures
+      (every template heading present, none empty: write "None." under an empty one). Fix every FAIL line and rerun.
 - [ ] Decision and audience stated in the user's terms.
 - [ ] Every question is specific enough that a number could answer it.
 - [ ] Scope has a period, a granularity and an entity.
