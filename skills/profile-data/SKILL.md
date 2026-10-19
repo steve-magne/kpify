@@ -1,18 +1,18 @@
 ---
 name: profile-data
-description: Use after the analysis is framed and before defining or computing any KPI — or whenever new data arrives or a number looks wrong. Inventories every source (files or SQL tables), establishes the grain, keys, joins and date coverage, and records data-quality issues (duplicates, nulls, negative or outlier values, incomplete periods, unit mismatches) in analysis/02-data-profile.md without silently cleaning anything.
+description: Use after the analysis is framed and before defining or computing any KPI — or whenever new data arrives or a number looks wrong. Inventories every source (files or SQL tables), establishes the grain, keys, joins and date coverage, and records data-quality issues (duplicates, nulls, negative or outlier values, incomplete periods, unit mismatches) in .kpify/02-data-profile.md without silently cleaning anything.
 allowed-tools: Bash(python3 *)
 ---
 
 # profile-data — stage 1
 
-Establish what the data contains and how far to trust it. Output: `analysis/02-data-profile.md`,
+Establish what the data contains and how far to trust it. Output: `.kpify/02-data-profile.md`,
 following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Work through
 `${CLAUDE_SKILL_DIR}/../kpify/references/data-quality-checklist.md` for every source.
 
 ## Procedure
 
-1. **Read the brief** (`analysis/01-analysis-brief.md`). Profile what the questions need first;
+1. **Read the brief** (`.kpify/01-analysis-brief.md`). Profile what the questions need first;
    note anything else in passing. No brief → record `Assumed (no 01-analysis-brief.md): …`.
 2. **Run the deterministic profile.** For CSV/TSV/JSON/JSONL files (nested JSON is flattened:
    dotted columns, child tables for lists of objects):
@@ -23,7 +23,7 @@ following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Work 
 
    For SQL databases, run the equivalent queries (row counts, `COUNT(DISTINCT key)`, null
    counts, `MIN`/`MAX` of dates and measures, duplicate keys) and keep the SQL in
-   `analysis/profile.sql`. For Excel or Parquet, convert to CSV with whatever the project
+   `.kpify/profile.sql`. For Excel or Parquet, convert to CSV with whatever the project
    has (DuckDB, pandas) or profile with it directly — and say which tool was used.
    Every count in the artifact must come from this output or a query you ran, never from memory.
    Say what each count counts: "131 rows in June (raw, before dedup)" is not "131 orders".
@@ -48,7 +48,7 @@ following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Work 
    node per API endpoint or query feeding each file (`api1["GET /v1/orders"] --> t0`), so the
    diagram shows both the joins and where each table comes from.
    **Interactive schema with [Archify](https://github.com/tt-a1i/archify).** If the `archify`
-   skill is available, use it to render `analysis/schema.html` as an `erd` from this diagram and
+   skill is available, use it to render `.kpify/schema.html` as an `erd` from this diagram and
    `## Lineage`: one entity per table with its profiled columns, `pk` on candidate keys, `fk` +
    `references` on confirmed joins only, `sublabel` = endpoint or query, `sources` = the
    producing code (`path`, `line`), and `tag` = source system, so tables from one API share a

@@ -6,7 +6,7 @@ Environment: the maintainer's normal Claude Code setup (global CLAUDE.md, hooks 
 reply language French). Not a clean-room run; rerun with the same setup when comparing.
 
 Output: one chat answer and one script, `monthly_kpis.py` (stdlib, deduplicates, separates
-refunds, normalises per day, has a `--check` self-test). No `analysis/` artifacts, no chart.
+refunds, normalises per day, has a `--check` self-test). No `.kpify/` artifacts, no chart.
 
 ## Traps
 

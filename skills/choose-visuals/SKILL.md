@@ -1,13 +1,13 @@
 ---
 name: choose-visuals
-description: Use after KPIs are validated and before presenting any chart, graph or dashboard — or whenever a chart is requested or needs review. Picks each chart from the question it answers, plots only values read from analysis/kpi-results.json, marks partial periods, writes the chart files locally to analysis/charts/ and reviews every one against the chart checklist in analysis/05-visualization-review.md.
+description: Use after KPIs are validated and before presenting any chart, graph or dashboard — or whenever a chart is requested or needs review. Picks each chart from the question it answers, plots only values read from .kpify/kpi-results.json, marks partial periods, writes the chart files locally to .kpify/charts/ and reviews every one against the chart checklist in .kpify/05-visualization-review.md.
 allowed-tools: Bash(python3 *), Bash(uv *)
 ---
 
 # choose-visuals — stage 4
 
 Chart only what answers a question, and only what was validated. Outputs: chart files in
-`analysis/charts/`, their code, and `analysis/05-visualization-review.md`, following
+`.kpify/charts/`, their code, and `.kpify/05-visualization-review.md`, following
 `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Pick charts with
 `${CLAUDE_SKILL_DIR}/../kpify/references/chart-selection.md`; review them with
 `${CLAUDE_SKILL_DIR}/../kpify/references/chart-review-checklist.md`.
@@ -22,16 +22,16 @@ Chart only what answers a question, and only what was validated. Outputs: chart 
    number; often two to four. A question answered by one value or a short table gets a table in
    the summary, not a chart. For each: the question, the KPI ids, the chart type from
    `chart-selection.md` and why.
-3. **Write one script that draws them all**, e.g. `analysis/charts.py`, and run it. It:
+3. **Write one script that draws them all**, e.g. `.kpify/charts.py`, and run it. It:
    - reads every plotted value from `kpi-results.json` by `id`, `period` and `segment` — no
      number typed into the code, no recomputation;
    - plots only `validated` rows; an `unvalidated` series says so in its title, a `blocked` KPI
      is not plotted;
    - marks a partial period (rows with a `note`) with a hatch, a dashed segment or by excluding
      it, and says which in a label on the chart; compares it per day, not as a raw total;
-   - writes each chart to `analysis/charts/<name>.png` (or `.svg`, or self-contained `.html`).
+   - writes each chart to `.kpify/charts/<name>.png` (or `.svg`, or self-contained `.html`).
      Use what the project has (matplotlib, plotly…). Nothing installed →
-     `uv run --with matplotlib python analysis/charts.py`, or write the SVG with the stdlib.
+     `uv run --with matplotlib python .kpify/charts.py`, or write the SVG with the stdlib.
    - Files on disk are the deliverable. Never stop at an online artifact or an inline chart: if
      you also publish one, do it after the files exist.
 4. **Label for a reader who skipped the analysis.** Title states the question or the finding;
@@ -59,8 +59,8 @@ Chart only what answers a question, and only what was validated. Outputs: chart 
 ## Gate
 
 - [ ] Headings exactly as in the template: one `## Chart: <file>` block per file in
-      `analysis/charts/`, then `## Assumptions`, `## Revisions` (write "None." under an empty one).
-- [ ] Every file in `analysis/charts/` has a block, and every block's file exists.
+      `.kpify/charts/`, then `## Assumptions`, `## Revisions` (write "None." under an empty one).
+- [ ] Every file in `.kpify/charts/` has a block, and every block's file exists.
 - [ ] Each chart names one question from the brief and the KPI ids it plots.
 - [ ] The chart code reads its values from `kpi-results.json`; it reruns and redraws the files.
 - [ ] Every checklist item passed, or its failure is recorded with the fix.
@@ -71,7 +71,7 @@ Chart only what answers a question, and only what was validated. Outputs: chart 
 
 | Thought | Reality |
 |---|---|
-| "I'll publish the chart as an artifact" | Publishing needs approval and may not happen. Write the file to `analysis/charts/` first. |
+| "I'll publish the chart as an artifact" | Publishing needs approval and may not happen. Write the file to `.kpify/charts/` first. |
 | "I'll type the values from the results table" | Typed values drift. The code reads `kpi-results.json`. |
 | "June is just lower, plot it as is" | A raw partial month looks like a drop. Per day, and marked. |
 | "A dashboard of every KPI" | A chart that answers no question is noise. One question per chart. |

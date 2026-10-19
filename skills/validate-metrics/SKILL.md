@@ -1,13 +1,13 @@
 ---
 name: validate-metrics
-description: Use after KPIs are defined and before any chart or conclusion — or whenever data, a definition or a transformation changes. Computes every catalog KPI with reproducible code (analysis/kpis.py or .sql), reconciles it against the source (dedup counts, refunds, line totals, date bounds, denominators, partial periods), and writes analysis/04-analysis.md and analysis/kpi-results.json. A KPI that fails a check is reported UNVALIDATED, never silently.
+description: Use after KPIs are defined and before any chart or conclusion — or whenever data, a definition or a transformation changes. Computes every catalog KPI with reproducible code (.kpify/kpis.py or .sql), reconciles it against the source (dedup counts, refunds, line totals, date bounds, denominators, partial periods), and writes .kpify/04-analysis.md and .kpify/kpi-results.json. A KPI that fails a check is reported UNVALIDATED, never silently.
 allowed-tools: Bash(python3 *)
 ---
 
 # validate-metrics — stage 3
 
-Compute each KPI once, in code, and prove it against the source. Outputs: `analysis/kpis.py`
-(or `analysis/kpis.sql`), `analysis/kpi-results.json` and `analysis/04-analysis.md`, following
+Compute each KPI once, in code, and prove it against the source. Outputs: `.kpify/kpis.py`
+(or `.kpify/kpis.sql`), `.kpify/kpi-results.json` and `.kpify/04-analysis.md`, following
 `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`.
 
 ## Procedure
@@ -71,7 +71,7 @@ Run each that applies; add others the catalog's caveats call for.
 - [ ] Headings exactly as in the template: `## Code`, `## Results`, `## Validation checks`,
       `## Findings`, `## Limitations`, `## Assumptions`, `## Revisions` (write "None." under an
       empty one).
-- [ ] The code exists in `analysis/`, reruns with the command given, and writes
+- [ ] The code exists in `.kpify/`, reruns with the command given, and writes
       `kpi-results.json` itself.
 - [ ] Every catalog KPI has rows in `kpi-results.json`, under its catalog id; blocked ones with
       `null` values.

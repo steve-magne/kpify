@@ -1,12 +1,12 @@
 ---
 name: explain-findings
-description: Use after metrics are validated and charted, before telling anyone what the data shows — or whenever asked to explain a change, summarize results or recommend next steps. Writes analysis/06-executive-summary.md with a short answer, then each finding as observation, evidence, interpretation, confidence and next action, quoting only numbers already in kpi-results.json, 02-data-profile.md or 04-analysis.md, wording correlations as associations, and stating what the data cannot tell us.
+description: Use after metrics are validated and charted, before telling anyone what the data shows — or whenever asked to explain a change, summarize results or recommend next steps. Writes .kpify/06-executive-summary.md with a short answer, then each finding as observation, evidence, interpretation, confidence and next action, quoting only numbers already in kpi-results.json, 02-data-profile.md or 04-analysis.md, wording correlations as associations, and stating what the data cannot tell us.
 allowed-tools: Bash(python3 *)
 ---
 
 # explain-findings — stage 5
 
-Say what the evidence supports, and no more. Output: `analysis/06-executive-summary.md`,
+Say what the evidence supports, and no more. Output: `.kpify/06-executive-summary.md`,
 following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Your chat answer is a
 short version of this file, never a different story.
 
@@ -54,7 +54,7 @@ short version of this file, never a different story.
 7. **Trace the numbers** and fix every line it reports, then rerun until it prints 0:
 
    ```bash
-   python3 ${CLAUDE_SKILL_DIR}/scripts/trace_numbers.py analysis
+   python3 ${CLAUDE_SKILL_DIR}/scripts/trace_numbers.py .kpify
    ```
 
    Fix by quoting the source value, by adding the number to the stage 3 code, or by deleting it.
