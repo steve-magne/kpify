@@ -1,0 +1,3 @@
+This folder has our online coffee shop's data: orders.csv, order_items.csv and customers.csv.
+Revenue dropped in June. What happened? Also, what should we track every month? We would like to follow our conversion rate too.
+I will not be available to answer questions during this run, so note your assumptions and carry on.

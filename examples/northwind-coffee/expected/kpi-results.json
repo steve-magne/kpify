@@ -1,0 +1,215 @@
+[
+ {
+  "id": "net_revenue",
+  "period": "2026-01",
+  "unit": "EUR",
+  "values": [
+   10839.8
+  ]
+ },
+ {
+  "id": "orders",
+  "period": "2026-01",
+  "unit": "count",
+  "values": [
+   218
+  ]
+ },
+ {
+  "id": "aov",
+  "period": "2026-01",
+  "unit": "EUR",
+  "values": [
+   52.6161,
+   49.7239
+  ]
+ },
+ {
+  "id": "refund_rate",
+  "period": "2026-01",
+  "unit": "ratio",
+  "values": [
+   0.0459,
+   0.055
+  ]
+ },
+ {
+  "id": "net_revenue",
+  "period": "2026-02",
+  "unit": "EUR",
+  "values": [
+   11541.3
+  ]
+ },
+ {
+  "id": "orders",
+  "period": "2026-02",
+  "unit": "count",
+  "values": [
+   217
+  ]
+ },
+ {
+  "id": "aov",
+  "period": "2026-02",
+  "unit": "EUR",
+  "values": [
+   53.8014,
+   53.1857
+  ]
+ },
+ {
+  "id": "refund_rate",
+  "period": "2026-02",
+  "unit": "ratio",
+  "values": [
+   0.0138,
+   0.0114
+  ]
+ },
+ {
+  "id": "net_revenue",
+  "period": "2026-03",
+  "unit": "EUR",
+  "values": [
+   14846.5
+  ]
+ },
+ {
+  "id": "orders",
+  "period": "2026-03",
+  "unit": "count",
+  "values": [
+   249
+  ]
+ },
+ {
+  "id": "aov",
+  "period": "2026-03",
+  "unit": "EUR",
+  "values": [
+   60.8723,
+   59.6245
+  ]
+ },
+ {
+  "id": "refund_rate",
+  "period": "2026-03",
+  "unit": "ratio",
+  "values": [
+   0.0201,
+   0.0205
+  ]
+ },
+ {
+  "id": "net_revenue",
+  "period": "2026-04",
+  "unit": "EUR",
+  "values": [
+   12588.6
+  ]
+ },
+ {
+  "id": "orders",
+  "period": "2026-04",
+  "unit": "count",
+  "values": [
+   248
+  ]
+ },
+ {
+  "id": "aov",
+  "period": "2026-04",
+  "unit": "EUR",
+  "values": [
+   52.7415,
+   50.7605
+  ]
+ },
+ {
+  "id": "refund_rate",
+  "period": "2026-04",
+  "unit": "ratio",
+  "values": [
+   0.0242,
+   0.0376
+  ]
+ },
+ {
+  "id": "net_revenue",
+  "period": "2026-05",
+  "unit": "EUR",
+  "values": [
+   13271.7
+  ]
+ },
+ {
+  "id": "orders",
+  "period": "2026-05",
+  "unit": "count",
+  "values": [
+   254
+  ]
+ },
+ {
+  "id": "aov",
+  "period": "2026-05",
+  "unit": "EUR",
+  "values": [
+   53.6228,
+   52.2508
+  ]
+ },
+ {
+  "id": "refund_rate",
+  "period": "2026-05",
+  "unit": "ratio",
+  "values": [
+   0.0236,
+   0.0256
+  ]
+ },
+ {
+  "id": "net_revenue",
+  "period": "2026-06",
+  "unit": "EUR",
+  "values": [
+   6377.1
+  ]
+ },
+ {
+  "id": "orders",
+  "period": "2026-06",
+  "unit": "count",
+  "values": [
+   127
+  ]
+ },
+ {
+  "id": "aov",
+  "period": "2026-06",
+  "unit": "EUR",
+  "values": [
+   51.3843,
+   50.2134
+  ]
+ },
+ {
+  "id": "refund_rate",
+  "period": "2026-06",
+  "unit": "ratio",
+  "values": [
+   0.0236,
+   0.0228
+  ]
+ },
+ {
+  "id": "repeat_purchase_rate",
+  "period": "total",
+  "unit": "ratio",
+  "values": [
+   0.6037
+  ],
+  "required": false
+ }
+]
