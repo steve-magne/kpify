@@ -47,7 +47,9 @@ def skills_list_template_headings():
     headings, _ = template_spec()
     skills = Path(__file__).resolve().parent.parent / "skills"
     for name, skill in [("01-analysis-brief.md", "frame-analysis"), ("02-data-profile.md", "profile-data"),
-                        ("03-kpi-catalog.md", "define-kpis"), ("04-analysis.md", "validate-metrics")]:
+                        ("03-kpi-catalog.md", "define-kpis"), ("04-analysis.md", "validate-metrics"),
+                        ("05-visualization-review.md", "choose-visuals"),
+                        ("06-executive-summary.md", "explain-findings")]:
         text = (skills / skill / "SKILL.md").read_text()
         missing = [h for h in headings[name] + ["## Assumptions", "## Revisions"] if f"`{h}`" not in text]
         assert not missing, f"{skill}/SKILL.md gate does not list {missing}"
