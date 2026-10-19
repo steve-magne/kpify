@@ -59,7 +59,7 @@ def main():
             kpi("refund_rate", period, "ratio", refunds / orders, refunded / gross),
         ]
     (repeat,) = db.execute(SQL_REPEAT).fetchone()
-    expected.append(kpi("repeat_purchase_rate", "total", "ratio", repeat))
+    expected.append(kpi("repeat_purchase_rate", "total", "ratio", repeat) | {"required": False})
 
     out = HERE / "expected" / "kpi-results.json"
     out.parent.mkdir(exist_ok=True)

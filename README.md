@@ -7,8 +7,8 @@ coding agent work like a careful BI analyst: frame the business question, profil
 define KPIs, validate the calculations, choose honest charts, and report findings with their
 evidence and caveats. Every stage writes an inspectable artifact to `analysis/`.
 
-> **Status: pre-release (0.0.1).** Only the `kpify` entry skill and shared references exist.
-> The stage skills land in the next increments — see [the MVP plan](docs/plans/2026-10-18-mvp-plan.md).
+> **Status: pre-release (0.0.1).** The `kpify` router, `frame-analysis` and `profile-data` exist.
+> The remaining stage skills land in the next increments — see [the MVP plan](docs/plans/2026-10-18-mvp-plan.md).
 
 ## Install (Claude Code)
 

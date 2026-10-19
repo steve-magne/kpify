@@ -209,6 +209,7 @@
   "unit": "ratio",
   "values": [
    0.6037
-  ]
+  ],
+  "required": false
  }
 ]

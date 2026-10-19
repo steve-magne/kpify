@@ -22,13 +22,13 @@ which stages were skipped.
 |---|---|---|---|
 | 0 | `kpify:frame-analysis` | `01-analysis-brief.md` | Decision, audience, questions, scope written; open questions answered or logged as assumptions |
 | 1 | `kpify:profile-data` | `02-data-profile.md` | Every source inventoried; grain, keys, date range, quality issues recorded; no silent cleaning |
-| 2 | `kpify:define-kpis` | `03-kpi-catalog.md` | Every KPI fully defined (see `references/kpi-definition.md`) or marked `BLOCKED` |
+| 2 | `kpify:define-kpis` | `03-kpi-catalog.md` | Every KPI fully defined (see `${CLAUDE_SKILL_DIR}/references/kpi-definition.md`) or marked `BLOCKED` |
 | 3 | `kpify:validate-metrics` | `04-analysis.md`, `kpi-results.json`, code | Every reported KPI has reproducible code and passed checks, or is marked `UNVALIDATED` |
-| 4 | `kpify:choose-visuals` | `charts/`, `05-visualization-review.md` | Every chart names its question and KPI id and passes `references/chart-review-checklist.md` |
+| 4 | `kpify:choose-visuals` | `charts/`, `05-visualization-review.md` | Every chart names its question and KPI id and passes `${CLAUDE_SKILL_DIR}/references/chart-review-checklist.md` |
 | 5 | `kpify:explain-findings` | `06-executive-summary.md` | Every finding has observation, evidence, interpretation, confidence, next action |
 
-Artifact formats: `references/artifact-templates.md`. Shared vocabulary (metric, KPI, target,
-dimension, grain): `references/kpi-definition.md`.
+Artifact formats: `${CLAUDE_SKILL_DIR}/references/artifact-templates.md`. Shared vocabulary (metric, KPI, target,
+dimension, grain): `${CLAUDE_SKILL_DIR}/references/kpi-definition.md`.
 
 ## Procedure
 

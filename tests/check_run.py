@@ -3,7 +3,7 @@
     python3 tests/check_run.py <analysis-dir> <expected-dir> [--upto N]
 
 --upto N checks stages 0..N only (default 5), for runs that stopped early.
-Required headings and KPI fields are read from skills/kpify/references/artifact-templates.md,
+Required headings (every `##` heading of each template) and KPI fields are read from skills/kpify/references/artifact-templates.md,
 so the templates stay the single source of truth.
 """
 
@@ -26,7 +26,7 @@ def stage(name):
 def template_spec():
     parts = re.split(r"^## (0\d-[\w-]+\.md)$", TEMPLATES.read_text(), flags=re.M)
     sections = dict(zip(parts[1::2], parts[2::2]))
-    headings = {name: re.findall(r"^(## .+?) \(required\)$", body, re.M) for name, body in sections.items()}
+    headings = {name: re.findall(r"^(## [^<\n]+)$", body, re.M) for name, body in sections.items()}
     fields = [f for f in re.findall(r"^\| ([A-Z][\w ]*?) \|", sections["03-kpi-catalog.md"], re.M) if f != "Field"]
     return headings, fields
 
@@ -49,7 +49,7 @@ def check(analysis, expected, upto=5):
         problems = []
         if not re.search(r"^Status: (complete|blocked)\b", text, re.M):
             problems.append("Status not complete/blocked")
-        problems += [f"no '{h}'" for h in headings.get(name, []) if not re.search(rf"^{re.escape(h)}\s*$", text, re.M)]
+        problems += [f"no '{h}'" for h in headings.get(name, []) if not re.search(rf"^{re.escape(h)}\b", text, re.M)]
         results.append((f"artifact {name}", not problems, "; ".join(problems)))
 
     if "03-kpi-catalog.md" in texts:
@@ -134,6 +134,8 @@ def check_values(actual_path, expected_path):
                       if exp["period"] == "total" or period(r.get("period")) == exp["period"]]
         ok = any(v is not None and (close(v, x) or close(v / 100, x))  # accept percentages too
                  for v in candidates for x in exp["values"])
+        if not ok and not exp.get("required", True):
+            continue  # a KPI the prompt did not ask for: check it only when reported
         results.append((f"value {exp['id']} {exp['period']}", ok, "" if ok else f"expected one of {exp['values']}"))
     return results
 

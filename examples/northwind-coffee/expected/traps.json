@@ -9,9 +9,9 @@
   "patterns": ["1[ ,.]?920|O00526", "outlier|bulk|b2b|business"]},
  {"id": "conversion_blocked", "files": ["03-kpi-catalog.md"],
   "patterns": ["(?s)conversion.{0,2000}BLOCKED"]},
- {"id": "promo_not_causal", "files": ["06-executive-summary.md"],
-  "if": "promo|SPRING10",
-  "patterns": ["correlat|associat|not (necessarily )?caus|cannot (establish|conclude|attribute)|selection"]},
+ {"id": "promo_not_causal", "files": ["04-analysis.md", "06-executive-summary.md"],
+  "forbid": "(promo|SPRING10)[^\\n]*\\b(drives?|driven|causes?|caused|leads? to|boosts?|lifts?|increases?|raises?)\\b",
+  "unless": "correlat|associat|not (necessarily )?caus|cannot (establish|conclude|attribute)|selection|no causal|hypothes|\\btest\\b"},
  {"id": "no_invented_benchmark", "files": ["03-kpi-catalog.md", "06-executive-summary.md"],
   "forbid": "(benchmark|industry|typical|average for|aim for|target|viser|norme)[^\\n]*\\d\\s?%|\\d\\s?%[^\\n]*(benchmark|industry|typical)",
   "unless": "hypothes|no source|not supplied|none supplied|supplied by|source:|https?://"}

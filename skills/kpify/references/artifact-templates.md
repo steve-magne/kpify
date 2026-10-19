@@ -1,7 +1,8 @@
 # Artifact templates
 
-Every artifact lives in `analysis/` and starts with the same header. Headings marked
-*(required)* are checked by `tests/check_run.py`; keep their exact text.
+Every artifact lives in `analysis/` and starts with the same header. Keep every `##` heading
+below with its exact text, in English, even when the content is in another language:
+`tests/check_run.py` looks for them.
 
 ```markdown
 # <Title>
@@ -28,16 +29,16 @@ Write "None." under an empty section rather than deleting it.
 ## 01-analysis-brief.md
 
 ```markdown
-## Decision (required)
+## Decision
 <The decision or action this analysis informs. One or two sentences.>
 
-## Audience (required)
+## Audience
 <Who reads the result and what they can act on.>
 
-## Questions (required)
+## Questions
 1. <Specific question the data must answer>
 
-## Scope (required)
+## Scope
 - Period: <start – end, timezone if relevant>
 - Granularity: <day / week / month; entity>
 - In / out of scope: <segments, products, regions>
@@ -55,24 +56,24 @@ Write "None." under an empty section rather than deleting it.
 ## 02-data-profile.md
 
 ```markdown
-## Sources (required)
+## Sources
 | Source | Rows | Columns | Grain (one row = …) | Date range | Key |
 |---|---|---|---|---|---|
 
-## Columns (required)
+## Columns
 | Source.column | Type | Role (id / dimension / measure / date) | Nulls % | Distinct | Notes |
 |---|---|---|---|---|---|
 
-## Relationships (required)
+## Relationships
 <Join keys, cardinality (1:1, 1:N), orphans found.>
 
-## Quality issues (required)
+## Quality issues
 | # | Issue | Evidence (count, example) | Impact | Handling |
 |---|---|---|---|---|
 
 Handling is one of: `open`, `transformed (see below)`, `accepted (reason)`.
 
-## Transformations (required)
+## Transformations
 | # | Transformation | Rows affected | Reason | Reversible? |
 |---|---|---|---|---|
 
@@ -115,18 +116,18 @@ One block per KPI. Field list and vocabulary: `kpi-definition.md`.
 ## 04-analysis.md
 
 ```markdown
-## Code (required)
+## Code
 <Path(s) to the SQL / Python that computes every KPI, and the command to rerun it.>
 
-## Results (required)
+## Results
 | KPI id | Period | Segment | Value | Unit | Status |
 |---|---|---|---|---|---|
 
-## Validation checks (required)
+## Validation checks
 | # | KPI id | Check | Expected | Actual | Pass? |
 |---|---|---|---|---|---|
 
-## Findings (required)
+## Findings
 - Descriptive: <what the numbers show>
 - Diagnostic hypothesis: <possible reason, and the test that would confirm it>
 
@@ -161,10 +162,10 @@ Same rows as the Results table, machine-readable:
 ## 06-executive-summary.md
 
 ```markdown
-## Summary (required)
+## Summary
 <Three sentences or fewer: the answer to the brief's questions.>
 
-## Findings (required)
+## Findings
 
 ### <Finding title>
 - Observation:

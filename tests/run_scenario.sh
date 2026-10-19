@@ -18,9 +18,10 @@ cp "$SCENARIO"/data/*.csv "$RUN"/
 cd "$RUN"
 # ponytail: allowlist covers common local data tools; extend if a run needs another CLI.
 claude -p "$(cat "$SCENARIO/prompt.txt")" ${PLUGIN[@]+"${PLUGIN[@]}"} \
+  --settings '{"language": "English"}' \
   --permission-mode acceptEdits \
   --allowedTools "Read,Write,Edit,Glob,Grep,Skill,Bash(python3:*),Bash(uv:*),Bash(duckdb:*),Bash(sqlite3:*),Bash(ls:*),Bash(head:*),Bash(wc:*),Bash(mkdir:*)" \
-  --max-turns 80 > transcript.md
+  --max-turns 80 < /dev/null > transcript.md
 
 echo "run dir: $RUN"
 if [[ ${#PLUGIN[@]} -gt 0 ]]; then
