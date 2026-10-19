@@ -38,4 +38,4 @@ claude --plugin-dir .                                 # load this checkout as th
 - Skills are rigid procedures with red-flag tables. Their rules are stated in the README's Principles and `skills/kpify/SKILL.md`; keep new skills consistent with them (no unlogged cleaning, no invented targets, `UNVALIDATED`/`BLOCKED` labels).
 - Skill changes are tested baseline-first: run the scenario without the skill, record the failures in `tests/baseline.md`, then write the skill to fix them.
 - Mark deliberate simplifications with a `ponytail:` comment, as in `tests/run_scenario.sh`.
-- Version lives in `.claude-plugin/plugin.json` (and the marketplace manifest); the repo is pre-release 0.0.1.
+- Version lives in `.claude-plugin/plugin.json` (and the marketplace manifest); the first release is 0.1.0 (`release-as` in `release-please-config.json`; remove it once released).

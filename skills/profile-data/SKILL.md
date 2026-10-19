@@ -36,7 +36,9 @@ following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Work 
    calls such as `fetch`, `axios`, `requests`, `httpx`, SDK clients, SQL exports, and the code
    that writes the file). Record in `## Lineage`: file, producing code (`path:line`), endpoint or
    query, fields the response returns but the code drops, and parameters it fixes (date range,
-   filters, page size — a missing pagination loop truncates data). Then list **other data worth
+   filters, page size — a missing pagination loop truncates data). The script flags a JSON file
+   that looks like one page (`next` link or cursor, `total` above the row count): find the loop
+   or record the truncation as a quality issue. Then list **other data worth
    fetching** for the brief's questions: dropped fields first, then other endpoints of the same
    API. An endpoint not seen in the code is a hypothesis until confirmed in the API's docs
    (`ctx7` or the vendor reference); say which. Never copy keys or tokens from that code.
