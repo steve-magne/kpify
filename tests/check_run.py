@@ -1,4 +1,4 @@
-"""Check a kpify run's analysis/ folder against a scenario's expected answers. Stdlib only.
+"""Check a kpify run's .kpify/ folder against a scenario's expected answers. Stdlib only.
 
     python3 tests/check_run.py <analysis-dir> <expected-dir> [--upto N]
 

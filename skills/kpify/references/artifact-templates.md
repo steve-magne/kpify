@@ -1,6 +1,6 @@
 # Artifact templates
 
-Every artifact lives in `analysis/` and starts with the same header. Keep every `##` heading
+Every artifact lives in `.kpify/` and starts with the same header. Keep every `##` heading
 below with its exact text, in English, even when the content is in another language:
 `tests/check_run.py` looks for them.
 

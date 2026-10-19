@@ -1,11 +1,11 @@
 ---
 name: define-kpis
-description: Use after the data is profiled and before computing any KPI — or whenever a metric's meaning, a target or the question changes. Turns the brief's questions into a catalog of KPIs, each with formula, numerator and denominator, unit, grain, time window, baseline, filters, target, owner and caveats, pins variants such as gross vs net under one id, and marks anything the data cannot support BLOCKED. Writes analysis/03-kpi-catalog.md.
+description: Use after the data is profiled and before computing any KPI — or whenever a metric's meaning, a target or the question changes. Turns the brief's questions into a catalog of KPIs, each with formula, numerator and denominator, unit, grain, time window, baseline, filters, target, owner and caveats, pins variants such as gross vs net under one id, and marks anything the data cannot support BLOCKED. Writes .kpify/03-kpi-catalog.md.
 ---
 
 # define-kpis — stage 2
 
-Decide exactly what each number means before calculating it. Output: `analysis/03-kpi-catalog.md`,
+Decide exactly what each number means before calculating it. Output: `.kpify/03-kpi-catalog.md`,
 following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`. Vocabulary and field
 rules: `${CLAUDE_SKILL_DIR}/../kpify/references/kpi-definition.md`.
 
