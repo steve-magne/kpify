@@ -108,7 +108,7 @@ One block per KPI. Field list and vocabulary: `kpi-definition.md`.
 | Source columns | |
 | Transformations | <refs to profile transformations> |
 | Caveats | |
-| Owner | |
+| Owner | <person named by the user, or "unassigned — not supplied"> |
 | Confidence | high / medium / low — <why> |
 | Status | defined / BLOCKED: <reason> |
 ```
@@ -142,11 +142,15 @@ Same rows as the Results table, machine-readable:
 ```json
 [
   {"id": "net_revenue", "period": "2026-01", "segment": "all",
-   "value": 12345.67, "unit": "EUR", "status": "validated"}
+   "value": 12345.67, "unit": "EUR", "status": "validated"},
+  {"id": "net_revenue_per_day", "period": "2026-06", "segment": "all",
+   "value": 412.30, "unit": "EUR/day", "status": "validated", "note": "partial: 14/30 days"}
 ]
 ```
 
 `status` is one of `validated`, `unvalidated`, `blocked` (`value` is `null` when blocked).
+`id` is a KPI id from `03-kpi-catalog.md`. `note` is optional; use it to flag a partial period
+or another caveat on that row.
 
 ## 05-visualization-review.md
 

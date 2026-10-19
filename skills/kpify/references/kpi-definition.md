@@ -27,6 +27,18 @@ that most often go wrong:
 - **Baseline.** What the value is compared with: prior period, same period last year, a segment.
 - **Filters.** Test orders, internal users, refunds, cancelled rows: in or out, and why.
 
+## Variants and ids
+
+When a metric has defensible variants (gross vs net revenue, AOV on gross or net, refund rate by
+count or by value), pick one per KPI id and say which in its Formula. Need both? Two ids
+(`gross_revenue`, `net_revenue`). From then on, tables, charts and prose name the id, never a
+loose label like "revenue".
+
+## Owner
+
+The person accountable for the KPI, as named by the user. Nobody named → `unassigned — not
+supplied`. Never invent an owner or infer one from a job title.
+
 ## Targets and benchmarks
 
 Never invent a target or an industry benchmark. If the user supplied one, quote it and its
