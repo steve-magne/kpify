@@ -1,0 +1,20 @@
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      # ponytail: GITHUB_TOKEN, donc la PR de release ne déclenche pas ci.yml.
+      # Passer à un PAT ou une GitHub App (input `token`) si la CI est requise sur cette PR.
+      - uses: googleapis/release-please-action@v4
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

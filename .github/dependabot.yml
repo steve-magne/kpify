@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Seul écosystème avec un manifeste : les actions de .github/workflows.
+  # ponytail: pas de pip/npm, le Python est stdlib-only et claude-code est épinglé dans ci.yml.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      actions:
+        patterns: ["*"]
