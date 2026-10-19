@@ -64,13 +64,11 @@ short version of this file, never a different story.
 
 ## Gate
 
-- [ ] Headings exactly as in the template: `## Summary`, `## Findings` (one `###` per finding),
-      `## What the data cannot tell us`, `## Assumptions`, `## Revisions` (write "None." under
-      an empty one).
+- [ ] `python3 ${CLAUDE_SKILL_DIR}/../kpify/scripts/check_artifacts.py .kpify --stage 5` prints 0 failures
+      (every template heading present and not empty, one `###` per finding, 0 untraced numbers). Fix every FAIL line and rerun.
 - [ ] Every question in the brief is answered by a finding or listed under what the data cannot
       tell us.
 - [ ] Every finding has Observation, Evidence, Interpretation, Confidence and caveats, Next action.
-- [ ] `trace_numbers.py` reports 0 untraced numbers.
 - [ ] Partial periods are called partial wherever they are compared.
 - [ ] No causal wording on a correlation; each causal hypothesis comes with its test.
 - [ ] Every `BLOCKED` KPI appears under what the data cannot tell us, with the missing data.

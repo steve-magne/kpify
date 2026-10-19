@@ -37,6 +37,11 @@ Compute each KPI once, in code, and prove it against the source. Outputs: `.kpif
    shares, with/without an outlier, medians: if a later stage or the summary may cite it, the code
    produces it as a row in `kpi-results.json` (under a KPI id plus a suffix such as
    `net_revenue_per_day`) or in the Results table. No arithmetic by hand, in prose or in chat.
+   Then print the `## Results` table from the JSON and paste it as is; never type it:
+
+   ```bash
+   python3 ${CLAUDE_SKILL_DIR}/../kpify/scripts/check_artifacts.py .kpify --results-table
+   ```
 4. **Run the checks** below in the same script (assertions or a printed table) and copy each one
    into `## Validation checks` with expected value, actual value and pass/fail. Expected values
    come from the profile or an independent computation, not from the result being checked.
@@ -68,14 +73,11 @@ Run each that applies; add others the catalog's caveats call for.
 
 ## Gate
 
-- [ ] Headings exactly as in the template: `## Code`, `## Results`, `## Validation checks`,
-      `## Findings`, `## Limitations`, `## Assumptions`, `## Revisions` (write "None." under an
-      empty one).
+- [ ] `python3 ${CLAUDE_SKILL_DIR}/../kpify/scripts/check_artifacts.py .kpify --stage 3` prints 0 failures
+      (headings, `kpi-results.json` rows and statuses, every catalog id present and nothing
+      else, blocked KPIs `null`, Results table identical to the JSON). Fix every FAIL line and rerun.
 - [ ] The code exists in `.kpify/`, reruns with the command given, and writes
       `kpi-results.json` itself.
-- [ ] Every catalog KPI has rows in `kpi-results.json`, under its catalog id; blocked ones with
-      `null` values.
-- [ ] Results table and `kpi-results.json` hold the same rows.
 - [ ] Every number that later stages may quote is in `kpi-results.json` or `04-analysis.md`.
 - [ ] Every applicable check ran, with expected, actual and pass/fail.
 - [ ] Partial periods flagged in `kpi-results.json` (`note`) and in Limitations.

@@ -36,7 +36,7 @@ does **without** it.
 
 4. **Write or change the skill** so the failure goes away. Prefer a gate or a checklist to prose advice,
    and point to `references/` instead of repeating it. If a skill's output format changes, update
-   `artifact-templates.md`: `check_run.py` reads its required headings and KPI fields from there.
+   `artifact-templates.md`: `skills/kpify/scripts/check_artifacts.py` (run by every gate and by `check_run.py`) reads its required headings and KPI fields from there.
 
 5. **Run the checks.** The self-tests are free:
 

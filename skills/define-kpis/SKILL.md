@@ -1,6 +1,7 @@
 ---
 name: define-kpis
 description: Use after the data is profiled and before computing any KPI — or whenever a metric's meaning, a target or the question changes. Turns the brief's questions into a catalog of KPIs, each with formula, numerator and denominator, unit, grain, time window, baseline, filters, target, owner and caveats, pins variants such as gross vs net under one id, and marks anything the data cannot support BLOCKED. Writes .kpify/03-kpi-catalog.md.
+allowed-tools: Bash(python3 *)
 ---
 
 # define-kpis — stage 2
@@ -53,10 +54,10 @@ rules: `${CLAUDE_SKILL_DIR}/../kpify/references/kpi-definition.md`.
 
 ## Gate
 
-- [ ] Headings exactly as in the template: one `## KPI: <id> — <Name>` block per KPI, then
-      `## Assumptions`, `## Revisions` (write "None." under an empty one).
+- [ ] `python3 ${CLAUDE_SKILL_DIR}/../kpify/scripts/check_artifacts.py .kpify --stage 2` prints 0 failures
+      (one `## KPI: <id> — <Name>` block per KPI, every field filled, Status `defined` or
+      `BLOCKED: …`, `## Assumptions` and `## Revisions` not empty). Fix every FAIL line and rerun.
 - [ ] Every KPI traces to a question or a tracking request in the brief.
-- [ ] Every field of every KPI table is filled; nothing blank.
 - [ ] Each variant (gross/net, count/value, mean/median) is pinned under one id, named in Formula.
 - [ ] Ratios state numerator and denominator; a missing input makes the KPI `BLOCKED` with the
       missing data named.
