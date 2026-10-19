@@ -6,7 +6,7 @@
     {
       "name": "kpify",
       "description": "BI skills for reliable metrics and decision-ready visuals",
-      "version": "0.0.1",
+      "version": "0.1.0",
       "source": "./"
     }
   ]
