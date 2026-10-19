@@ -55,7 +55,7 @@ Write "None." under an empty section rather than deleting it.
 
 ## 02-data-profile.md
 
-```markdown
+````markdown
 ## Sources
 | Source | Rows | Columns | Grain (one row = …) | Date range | Key |
 |---|---|---|---|---|---|
@@ -66,6 +66,20 @@ Write "None." under an empty section rather than deleting it.
 
 ## Relationships
 <Join keys, cardinality (1:1, 1:N), orphans found.>
+
+```mermaid
+flowchart LR
+  api0["GET /v1/orders"] --> t0["orders.json"]
+  t0 -- "customer.id → id (N:1)" --> t1["customers.json"]
+```
+
+## Lineage
+| Source | Produced by (path:line) | Endpoint / query | Fields dropped | Fixed parameters |
+|---|---|---|---|---|
+
+Data worth fetching:
+| Data | Endpoint / field | Question it serves | Status (confirmed: code / docs, or hypothesis) |
+|---|---|---|---|
 
 ## Quality issues
 | # | Issue | Evidence (count, example) | Impact | Handling |
@@ -80,7 +94,7 @@ Handling is one of: `open`, `transformed (see below)`, `accepted (reason)`.
 ## Observations vs hypotheses
 - Observed: <fact with count>
 - Hypothesis: <possible explanation, not yet tested>
-```
+````
 
 ## 03-kpi-catalog.md
 
