@@ -56,14 +56,30 @@ where the analysis stands and what comes next.
 Adapted from CRISP-DM, iterative rather than waterfall: a later stage may send you back to an
 earlier one, and the reason is recorded.
 
-| Stage | Skill | Artifact |
+| Stage | Run | When | Artifact |
+|---|---|---|---|
+| — | `/kpify:kpify` | Any time: shows where the analysis stands and runs the next stage | — |
+| 0 Frame | `/kpify:frame-analysis` | Start of any analysis: who decides what, with which questions | `analysis/01-analysis-brief.md` |
+| 1 Profile | `/kpify:profile-data` | New or changed data, or a number looks wrong | `analysis/02-data-profile.md` |
+| 2 Define | `/kpify:define-kpis` | Before computing anything: exact formula, grain, filters, target | `analysis/03-kpi-catalog.md` |
+| 3 Validate | `/kpify:validate-metrics` | Before any chart or conclusion, or after a definition or data change | `analysis/04-analysis.md`, `kpi-results.json`, code |
+| 4 Visualize | `/kpify:choose-visuals` | A chart or dashboard is needed or needs review | `analysis/charts/`, `analysis/05-visualization-review.md` |
+| 5 Explain | `/kpify:explain-findings` | Reporting results, explaining a change, recommending next steps | `analysis/06-executive-summary.md` |
+
+### By need
+
+| I want to… | Run | What you get |
 |---|---|---|
-| 0 Frame | `frame-analysis` | `analysis/01-analysis-brief.md` |
-| 1 Profile | `profile-data` | `analysis/02-data-profile.md` |
-| 2 Define | `define-kpis` | `analysis/03-kpi-catalog.md` |
-| 3 Validate | `validate-metrics` | `analysis/04-analysis.md`, `kpi-results.json`, code |
-| 4 Visualize | `choose-visuals` | `analysis/charts/`, `analysis/05-visualization-review.md` |
-| 5 Explain | `explain-findings` | `analysis/06-executive-summary.md` |
+| Check that my JSON/CSV files relate and hold together | `profile-data` | Keys, joins (also between differently named ids), orphans, cardinality |
+| Find data errors and inconsistencies | `profile-data`, then `validate-metrics` | Duplicates, nulls, outliers, partial periods; totals reconciled against the source |
+| Find other data worth fetching from the source APIs | `profile-data` | `## Lineage`: producing code, dropped fields, other endpoints (confirmed or hypothesis) |
+| Get a relational schema with each table's source | `profile-data` | Mermaid diagram; interactive `analysis/schema.html` if [Archify](https://github.com/tt-a1i/archify) is installed |
+| Decide which KPIs to show | `frame-analysis`, then `define-kpis` | KPIs tied to a decision, with definitions and owners |
+| Get clear, impactful visuals | `choose-visuals` | One chart per question, values read from `kpi-results.json`, checklist review |
+| Explain what the numbers say | `explain-findings` | Short answer first, each finding with evidence, confidence and next action |
+
+Each stage reads the artifacts of the earlier ones; running one out of order records what it had
+to assume.
 
 ## Principles
 
