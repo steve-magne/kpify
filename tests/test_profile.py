@@ -47,3 +47,20 @@ for expected in [
 ]:
     assert expected in out, f"missing: {expected}\n\n{out}"
 print("ok json")
+
+# API dumps: one page of a paginated response, and the same file name in two folders.
+with tempfile.TemporaryDirectory() as tmp:
+    tmp = Path(tmp)
+    for month in ("2026-05", "2026-06"):
+        (tmp / month).mkdir()
+        (tmp / month / "orders.json").write_text(json.dumps(
+            {"data": [{"id": f"{month}-{i}"} for i in range(3)], "meta": {"total": 7}, "links": {"next": "?page=2"}}))
+    out = subprocess.run([sys.executable, ROOT / "skills/profile-data/scripts/profile.py", *sorted(tmp.glob("*/orders.json"))],
+                         capture_output=True, text=True, check=True).stdout
+for expected in [
+    "## orders.json\n",
+    "## 2026-06/orders.json",                                              # not overwritten
+    "Possibly one page of a paginated API response: `next` = ?page=2; `total` = 7 but 3 rows",
+]:
+    assert expected in out, f"missing: {expected}\n\n{out}"
+print("ok api")

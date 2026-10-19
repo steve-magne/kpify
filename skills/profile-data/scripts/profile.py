@@ -5,7 +5,9 @@
 Per table: rows, exact duplicate rows, and per column: inferred type, blanks, distinct values,
 candidate key, range, negatives, skew/outliers, last-period coverage for dates.
 JSON is flattened: nested objects become dotted columns (`customer.id`), lists of objects become
-child tables (`orders.json.items`), lists of scalars one comma-joined cell, with `_parent_id` pointing at the parent's `id` (or row number).
+child tables (`orders.json.items`), lists of scalars one comma-joined cell, with `_parent_id` pointing at the parent's `id` (or `_id`, or row number).
+A wrapper with a next link/cursor or a total above its row count is flagged as one page of a paginated API.
+The same file name in two folders stays two tables (`2026-06/orders.json`).
 Across tables: shared column names, and differently named id columns whose values fall inside
 another table's unique column, with orphan counts and join cardinality, plus a Mermaid diagram.
 It only reports; it never cleans or drops anything.
@@ -44,7 +46,11 @@ def read(path):
     return rows[0], rows[1:]
 
 
-def read_json(path):
+PAGING = {"next", "next_page", "nextpage", "next_cursor", "nextcursor", "next_page_token", "nextpagetoken", "has_more", "hasmore"}
+TOTALS = {"total", "count", "total_count", "totalcount", "total_results", "totalresults"}
+
+
+def read_json(path, name):
     """JSON array, {"key": [...]} wrapper or JSON Lines → {table name: (header, rows)}."""
     text = path.read_text(encoding="utf-8-sig")
     if path.suffix.lower() in (".jsonl", ".ndjson"):
@@ -53,10 +59,28 @@ def read_json(path):
         data = json.loads(text)
     if isinstance(data, dict):
         lists = [v for v in data.values() if isinstance(v, list)]
+        if len(lists) == 1:
+            truncation(name, data, len(lists[0]))
         data = lists[0] if len(lists) == 1 else [data]  # ponytail: one top-level list, else the object is the row
     tables = {}
-    flatten(tables, path.name, data)
+    flatten(tables, name, data)
     return tables
+
+
+def truncation(name, wrapper, n):
+    """API wrappers say when a file holds one page only: a next link/cursor, or a total above the rows."""
+    flat = {k.lower(): v for k, v in wrapper.items()}
+    for k, v in wrapper.items():  # one level down: {"meta": {"total": …}, "links": {"next": …}}
+        if isinstance(v, dict):
+            flat.update({kk.lower(): vv for kk, vv in v.items() if kk.lower() not in flat})
+    hints = [f"`{k}` = {v}" for k, v in flat.items() if k in PAGING and v not in (None, "", False, 0)]
+    hints += [f"`{k}` = {v} but {n} rows" for k, v in flat.items()
+              if k in TOTALS and isinstance(v, int) and not isinstance(v, bool) and v > n]
+    if hints:
+        TRUNCATED[name] = hints
+
+
+TRUNCATED = {}
 
 
 def flatten(tables, name, records):
@@ -65,7 +89,7 @@ def flatten(tables, name, records):
     for n, rec in enumerate(records, 1):
         row = {}
         rec = rec if isinstance(rec, dict) else {"value": rec}
-        walk(rec, "", row, children, name, rec.get("id", n))
+        walk(rec, "", row, children, name, rec.get("id", rec.get("_id", n)))
         rows.append(row)
     header = list(dict.fromkeys(k for r in rows for k in r))
     tables[name] = (header, [[r.get(k, "") for k in header] for r in rows])
@@ -149,10 +173,11 @@ def main(paths):
     tables = {}
     for path in map(Path, paths):
         suffix = path.suffix.lower()
+        name = path.name if path.name not in tables else f"{path.parent.name}/{path.name}"  # same file name in two folders (API pages) stays two tables
         if suffix in (".csv", ".tsv"):
-            tables[path.name] = read(path)
+            tables[name] = read(path)
         elif suffix in (".json", ".jsonl", ".ndjson"):
-            tables.update(read_json(path))
+            tables.update(read_json(path, name))
         else:
             print(f"## {path.name}\n\nSkipped: only CSV/TSV/JSON. Convert first, e.g. with DuckDB:\n"
                   f"`uv run --with duckdb python -c \"import duckdb; duckdb.sql(\\\"COPY (SELECT * FROM '{path}') TO '{path.stem}.csv'\\\")\"`\n")
@@ -163,6 +188,8 @@ def main(paths):
         print(f"## {name}\n")
         print(f"- Rows: {len(rows)}; columns: {len(header)}")
         print(f"- Exact duplicate rows: {dupes} extra copies" + (f" ({pct(dupes, len(rows))})" if dupes else ""))
+        if name in TRUNCATED:
+            print(f"- Possibly one page of a paginated API response: {'; '.join(TRUNCATED[name])}")
         if ragged:
             print(f"- Rows with a different column count than the header: {ragged}")
         print("\n| Column | Type | Blank/null | Distinct | Range | Notes |\n|---|---|---|---|---|---|")
