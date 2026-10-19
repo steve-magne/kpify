@@ -1,7 +1,9 @@
 {
   "name": "kpify",
   "description": "Marketplace for the kpify BI skills plugin",
-  "owner": { "name": "Steve Magne" },
+  "owner": {
+    "name": "Steve Magne"
+  },
   "plugins": [
     {
       "name": "kpify",

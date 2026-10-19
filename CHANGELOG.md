@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.0](https://github.com/steve-magne/kpify/compare/kpify-v0.0.1...kpify-v0.1.0) (2026-10-19)
+
+
+### Features
+
+* run artifact checks deterministically in every stage gate ([8dd6837](https://github.com/steve-magne/kpify/commit/8dd68379754286dd487999edd6e564822669a8b4))
+
 ## 0.1.0 — unreleased
 
 First release: the `kpify` router and six stage skills, with an acceptance scenario that checks them.
