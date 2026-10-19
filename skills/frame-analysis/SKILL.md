@@ -1,11 +1,11 @@
 ---
 name: frame-analysis
-description: Use at the start of any data analysis, KPI or dashboard request, before profiling or calculating anything — and whenever the business question, audience or scope changes. Pins down the decision the analysis supports, who reads it, the specific questions, scope and known definitions, and writes analysis/01-analysis-brief.md. Asks the user only questions whose answer would change a KPI or a conclusion.
+description: Use at the start of any data analysis, KPI or dashboard request, before profiling or calculating anything — and whenever the business question, audience or scope changes. Pins down the decision the analysis supports, who reads it, the specific questions, scope and known definitions, and writes .kpify/01-analysis-brief.md. Asks the user only questions whose answer would change a KPI or a conclusion.
 ---
 
 # frame-analysis — stage 0
 
-Understand the decision before touching the numbers. Output: `analysis/01-analysis-brief.md`,
+Understand the decision before touching the numbers. Output: `.kpify/01-analysis-brief.md`,
 following `${CLAUDE_SKILL_DIR}/../kpify/references/artifact-templates.md`.
 
 ## Procedure

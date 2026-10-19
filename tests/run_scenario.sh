@@ -26,5 +26,5 @@ claude -p "$(cat "$SCENARIO/prompt.txt")" ${PLUGIN[@]+"${PLUGIN[@]}"} \
 
 echo "run dir: $RUN"
 if [[ ${#PLUGIN[@]} -gt 0 ]]; then
-  python3 "$ROOT/tests/check_run.py" "$RUN/analysis" "$SCENARIO/expected" --upto "${UPTO:-5}"
+  python3 "$ROOT/tests/check_run.py" "$RUN/.kpify" "$SCENARIO/expected" --upto "${UPTO:-5}"
 fi

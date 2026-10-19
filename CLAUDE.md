@@ -18,11 +18,11 @@ claude plugin validate .                              # manifest check (CI pins 
 claude --plugin-dir .                                 # load this checkout as the plugin for a session
 ```
 
-`tests/run_scenario.sh [--baseline] [run-dir]` runs the Northwind scenario headless with `claude -p`, then checks the produced `analysis/` against `examples/northwind-coffee/expected/` via `tests/check_run.py`. It costs tokens, so it is on-demand and never in CI. `UPTO=N` checks stages 0..N only; `--baseline` runs without the plugin to record what a plain agent does (see `tests/baseline.md`).
+`tests/run_scenario.sh [--baseline] [run-dir]` runs the Northwind scenario headless with `claude -p`, then checks the produced `.kpify/` against `examples/northwind-coffee/expected/` via `tests/check_run.py`. It costs tokens, so it is on-demand and never in CI. `UPTO=N` checks stages 0..N only; `--baseline` runs without the plugin to record what a plain agent does (see `tests/baseline.md`).
 
 ## Architecture
 
-**Stage pipeline.** `skills/kpify/SKILL.md` is the router: it reads the `Status:` line of each artifact in the user's `analysis/` folder, picks the first stage that is missing or not `complete`, announces it, and hands off. Six stage skills (`frame-analysis` → `profile-data` → `define-kpis` → `validate-metrics` → `choose-visuals` → `explain-findings`) each write one numbered artifact (`01-…` to `06-…`) and each read the earlier ones. Direct entry to a stage is allowed; the skill then records missing upstream artifacts as explicit assumptions. Going back is allowed too, via a `## Revisions` section, never a silent rewrite.
+**Stage pipeline.** `skills/kpify/SKILL.md` is the router: it reads the `Status:` line of each artifact in the user's `.kpify/` folder, picks the first stage that is missing or not `complete`, announces it, and hands off. Six stage skills (`frame-analysis` → `profile-data` → `define-kpis` → `validate-metrics` → `choose-visuals` → `explain-findings`) each write one numbered artifact (`01-…` to `06-…`) and each read the earlier ones. Direct entry to a stage is allowed; the skill then records missing upstream artifacts as explicit assumptions. Going back is allowed too, via a `## Revisions` section, never a silent rewrite.
 
 **Shared references live in `skills/kpify/references/`** and are used by the other skills as `${CLAUDE_SKILL_DIR}/../kpify/references/…`:
 - `artifact-templates.md` is the single source of truth for artifact headings and KPI fields. `tests/check_run.py` parses it to know which `##` headings and fields a run must contain, so editing a template changes what the checker requires.

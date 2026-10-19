@@ -1,12 +1,12 @@
 ---
 name: kpify
-description: Use before any data analysis, KPI, metric, dashboard, BI report or chart work — exploring CSV/Excel/Parquet/JSON files or a SQL database, deciding what to measure, explaining why a metric changed, or auditing existing metrics and charts. Finds where the analysis stands in analysis/ and routes to the right kpify stage skill so nothing is calculated or charted before the question, data and definitions are clear.
+description: Use before any data analysis, KPI, metric, dashboard, BI report or chart work — exploring CSV/Excel/Parquet/JSON files or a SQL database, deciding what to measure, explaining why a metric changed, or auditing existing metrics and charts. Finds where the analysis stands in .kpify/ and routes to the right kpify stage skill so nothing is calculated or charted before the question, data and definitions are clear.
 ---
 
 # kpify — analysis router
 
 kpify turns raw data into validated KPIs and decision-ready findings through six stages.
-Each stage has its own skill and writes one artifact to `analysis/` in the user's project.
+Each stage has its own skill and writes one artifact to `.kpify/` in the user's project.
 Your job here: find the current stage, tell the user in one line, and hand off.
 
 ## The rule
@@ -32,8 +32,8 @@ dimension, grain): `${CLAUDE_SKILL_DIR}/references/kpi-definition.md`.
 
 ## Procedure
 
-1. **Locate state.** List `analysis/` in the project root. For each artifact present, read its
-   `Status:` line (`draft`, `complete`, `blocked`). No `analysis/` folder → stage 0.
+1. **Locate state.** List `.kpify/` in the project root. For each artifact present, read its
+   `Status:` line (`draft`, `complete`, `blocked`). No `.kpify/` folder → stage 0.
 2. **Pick the stage.** The first stage whose artifact is missing or not `complete` — unless the
    request targets a specific stage (see Direct entry).
 3. **Check for staleness.** If the user's request changes the question, the data, or a KPI

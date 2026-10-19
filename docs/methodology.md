@@ -7,7 +7,7 @@ modelling project and made explicit as files. It is inspired by CRISP-DM, not an
 
 ## Six stages
 
-Each stage is one skill, writes one artifact to `analysis/` in the user's project, and has a gate:
+Each stage is one skill, writes one artifact to `.kpify/` in the user's project, and has a gate:
 a condition that must hold before the next stage may rely on it. Templates for every artifact live in
 [`skills/kpify/references/artifact-templates.md`](../skills/kpify/references/artifact-templates.md).
 
@@ -20,7 +20,7 @@ a condition that must hold before the next stage may rely on it. Templates for e
 | 4 Visualize | `choose-visuals` | `charts/`, `05-visualization-review.md` | Each chart names the question it answers and the KPI id it shows, and passes the review checklist. |
 | 5 Explain | `explain-findings` | `06-executive-summary.md` | Each finding has observation, evidence, interpretation, confidence and next action. Every number in prose traces to `kpi-results.json` or a named check. No causal claim without a design that supports it; "no clear signal" is an allowed answer. |
 
-The `kpify` entry skill reads `analysis/`, finds the current stage, announces it in one line and hands
+The `kpify` entry skill reads `.kpify/`, finds the current stage, announces it in one line and hands
 off. Stages can also be run directly; a skipped upstream artifact is then recorded as an explicit
 assumption.
 

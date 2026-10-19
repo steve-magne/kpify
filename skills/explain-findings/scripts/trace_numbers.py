@@ -50,7 +50,7 @@ def prose_numbers(texts, results_path):
 
 
 def main():
-    analysis = Path(sys.argv[1] if len(sys.argv) > 1 else "analysis")
+    analysis = Path(sys.argv[1] if len(sys.argv) > 1 else ".kpify")
     names = ["02-data-profile.md", "04-analysis.md", "06-executive-summary.md"]
     texts = {n: (analysis / n).read_text() for n in names if (analysis / n).exists()}
     untraced = prose_numbers(texts, analysis / "kpi-results.json")
